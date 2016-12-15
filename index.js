@@ -139,9 +139,9 @@ class DatePicker extends Component {
     const {date, placeholder, customStyles} = this.props;
 
     if (!date && placeholder) {
-      return (<Text style={[Style.placeholderText, customStyles.placeholderText]}>{placeholder}</Text>);
+      return (<Text allowFontScaling={this.props.allowFontScaling} style={[Style.placeholderText, customStyles.placeholderText]}>{placeholder}</Text>);
     }
-    return (<Text style={[Style.dateText, customStyles.dateText]}>{this.getDateStr()}</Text>);
+    return (<Text allowFontScaling={this.props.allowFontScaling} style={[Style.dateText, customStyles.dateText]}>{this.getDateStr()}</Text>);
   }
 
   onDatePicked({action, year, month, day}) {
@@ -302,7 +302,7 @@ class DatePicker extends Component {
                       onPress={this.onPressCancel}
                       style={[Style.btnText, Style.btnCancel, customStyles.btnCancel]}
                     >
-                      <Text
+                      <Text allowFontScaling={this.props.allowFontScaling} 
                         style={[Style.btnTextText, Style.btnTextCancel, customStyles.btnTextCancel]}
                       >
                         {cancelBtnText}
@@ -313,7 +313,7 @@ class DatePicker extends Component {
                       onPress={this.onPressConfirm}
                       style={[Style.btnText, Style.btnConfirm, customStyles.btnConfirm]}
                     >
-                      <Text style={[Style.btnTextText, customStyles.btnTextConfirm]}>{confirmBtnText}</Text>
+                      <Text allowFontScaling={this.props.allowFontScaling} style={[Style.btnTextText, customStyles.btnTextConfirm]}>{confirmBtnText}</Text>
                     </TouchableHighlight>
                   </Animated.View>
                 </TouchableHighlight>
@@ -343,7 +343,8 @@ DatePicker.defaultProps = {
   showIcon: true,
   disabled: false,
   placeholder: '',
-  modalOnResponderTerminationRequest: e => true
+  modalOnResponderTerminationRequest: e => true,
+  allowFontScaling: true,
 };
 
 DatePicker.propTypes = {
