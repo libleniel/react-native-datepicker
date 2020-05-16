@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license        = package_json["license"]
   s.author         = { package_json["author"] => package_json["author"] }
   s.platform       = :ios, "8.0"
-  s.source         = { :git => "#{package_json["repository"]["url"]}", :tag => 'v1.4.3-3' }
+  s.source         = { :git => "#{package_json["repository"]["url"]}", :tag => "v#{s.version}" }
   s.dependency 'React'
 
 end
