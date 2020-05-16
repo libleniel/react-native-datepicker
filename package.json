@@ -1,6 +1,6 @@
 {
   "name": "react-native-datepicker",
-  "version": "1.4.5",
+  "version": "1.4.3-3",
   "description": "react native datePicker component for both Android and IOS, useing DatePikcerAndroid, TimePickerAndroid and DatePickerIOS",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xgfe/react-native-datepicker.git"
+    "url": "git+https://github.com/libleniel/react-native-datepicker.git"
   },
   "keywords": [
     "react-native",
@@ -22,9 +22,9 @@
   "author": "xgfe",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xgfe/react-native-datepicker/issues"
+    "url": "https://github.com/libleniel/react-native-datepicker/issues"
   },
-  "homepage": "https://github.com/xgfe/react-native-datepicker#readme",
+  "homepage": "https://github.com/libleniel/react-native-datepicker#readme",
   "dependencies": {
     "moment": "2.x.x"
   },
