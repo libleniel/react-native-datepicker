@@ -29,13 +29,13 @@ class DatePicker extends Component {
     super(props);
 
     this.state = {
-      date: this.getDate(),
+      date: DatePicker.getDate(this.props && this.props.date, this.props),
       modalVisible: false,
       animatedHeight: new Animated.Value(0),
       allowPointerEvents: true
     };
 
-    this.getDate = this.getDate.bind(this);
+    this.getDate = DatePicker.getDate.bind(this);
     this.getDateStr = this.getDateStr.bind(this);
     this.datePicked = this.datePicked.bind(this);
     this.onPressDate = this.onPressDate.bind(this);
@@ -50,10 +50,15 @@ class DatePicker extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.date !== this.props.date) {
-      this.setState({date: this.getDate(nextProps.date)});
+  static getDerivedStateFromProps(props, state) {
+    if (props.date !== state.dateRaw) {
+        return  {
+          date: DatePicker.getDate(props.date, props),
+          dateRaw: props.date
+        }
     }
+    
+    return null
   }
 
   setModalVisible(visible) {
@@ -115,14 +120,14 @@ class DatePicker extends Component {
     }
   }
 
-  getDate(date = this.props.date) {
-    const {mode, minDate, maxDate, format = FORMATS[mode]} = this.props;
+  static getDate(from, props) {
+    const {mode, minDate, maxDate, format = FORMATS[mode]} = props;
 
     // date默认值
-    if (!date) {
+    if (!from) {
       let now = new Date();
       if (minDate) {
-        let _minDate = this.getDate(minDate);
+        let _minDate = DatePicker.getDate(minDate, props);
 
         if (now < _minDate) {
           return _minDate;
@@ -130,7 +135,7 @@ class DatePicker extends Component {
       }
 
       if (maxDate) {
-        let _maxDate = this.getDate(maxDate);
+        let _maxDate = DatePicker.getDate(maxDate, props);
 
         if (now > _maxDate) {
           return _maxDate;
@@ -140,11 +145,11 @@ class DatePicker extends Component {
       return now;
     }
 
-    if (date instanceof Date) {
-      return date;
+    if (from instanceof Date) {
+      return from;
     }
 
-    return Moment(date, format).toDate();
+    return Moment(from, format).toDate();
   }
 
   getDateStr(date = this.props.date) {
@@ -152,7 +157,7 @@ class DatePicker extends Component {
 
     const dateInstance = date instanceof Date
       ? date
-      : this.getDate(date);
+      : DatePicker.getDate(date, this.props);
 
     if (typeof this.props.getDateStr === 'function') {
       return this.props.getDateStr(dateInstance);
@@ -256,7 +261,7 @@ class DatePicker extends Component {
 
     // reset state
     this.setState({
-      date: this.getDate()
+      date: DatePicker.getDate(this.props && this.props.date, this.props)
     });
 
     if (Platform.OS === 'ios') {
@@ -269,8 +274,8 @@ class DatePicker extends Component {
       if (mode === 'date') {
         DatePickerAndroid.open({
           date: this.state.date,
-          minDate: minDate && this.getDate(minDate),
-          maxDate: maxDate && this.getDate(maxDate),
+          minDate: minDate && DatePicker.getDate(minDate, this.props),
+          maxDate: maxDate && DatePicker.getDate(maxDate, this.props),
           mode: androidMode
         }).then(this.onDatePicked);
       } else if (mode === 'time') {
@@ -289,8 +294,8 @@ class DatePicker extends Component {
 
         DatePickerAndroid.open({
           date: this.state.date,
-          minDate: minDate && this.getDate(minDate),
-          maxDate: maxDate && this.getDate(maxDate),
+          minDate: minDate && DatePicker.getDate(minDate, this.props),
+          maxDate: maxDate && DatePicker.getDate(maxDate, this.props),
           mode: androidMode
         }).then(this.onDatetimePicked);
       }
@@ -394,8 +399,8 @@ class DatePicker extends Component {
                       <DatePickerIOS
                         date={this.state.date}
                         mode={mode}
-                        minimumDate={minDate && this.getDate(minDate)}
-                        maximumDate={maxDate && this.getDate(maxDate)}
+                        minimumDate={minDate && DatePicker.getDate(minDate, this.props)}
+                        maximumDate={maxDate && DatePicker.getDate(maxDate, this.props)}
                         onDateChange={this.onDateChange}
                         minuteInterval={minuteInterval}
                         timeZoneOffsetInMinutes={timeZoneOffsetInMinutes ? timeZoneOffsetInMinutes : null}
