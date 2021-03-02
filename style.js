@@ -41,32 +41,49 @@ let style = StyleSheet.create({
     height: 0,
     overflow: 'hidden'
   },
-  btnText: {
+  datePickerToolBar: {
     position: 'absolute',
     top: 0,
-    height: 42,
-    paddingHorizontal: 20,
+    left: 0,
+    height: 43,
+    backgroundColor: '#e6e6e6',
     flexDirection: 'row',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#c3c3c3',
+    alignItems: 'center'
+  },
+  datePickerTitleText: {
+    flex: 2,
+    color: 'black',
+    textAlign: 'center'
+  },
+  btnTextCancel: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'center'
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  btnTextFinish: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 5,
+    paddingBottom: 5
   },
   btnTextText: {
     fontSize: 16,
-    color: '#46cf98'
+    color: '#149be0'
   },
-  btnTextCancel: {
-    color: '#666'
-  },
-  btnCancel: {
-    left: 0
-  },
-  btnConfirm: {
-    right: 0
-  },
-  datePicker: {
-    marginTop: 42,
-    borderTopColor: '#ccc',
-    borderTopWidth: 1
+  datePicker: { /* iOS Only */
+    marginTop: 43
   },
   disabled: {
     backgroundColor: '#eee'

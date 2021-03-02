@@ -8,13 +8,17 @@ import {
   TouchableHighlight,
   DatePickerAndroid,
   TimePickerAndroid,
-  DatePickerIOS,
   Platform,
   Animated,
-  Keyboard
+  Keyboard,
+  Dimensions
 } from 'react-native';
 import Style from './style';
 import Moment from 'moment';
+
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+
+let {width, height} = Dimensions.get('window');
 
 const FORMATS = {
   'date': 'YYYY-MM-DD',
@@ -191,7 +195,7 @@ class DatePicker extends Component {
     );
   }
 
-  onDateChange(date) {
+  onDateChange(event, date) {
     this.setState({
       allowPointerEvents: false,
       date: date
@@ -343,6 +347,7 @@ class DatePicker extends Component {
       timeZoneOffsetInMinutes,
       cancelBtnText,
       confirmBtnText,
+      titleToolBarText,
       TouchableComponent,
       testID,
       cancelBtnTestID,
@@ -398,43 +403,49 @@ class DatePicker extends Component {
                     style={[Style.datePickerCon, {height: this.state.animatedHeight}, customStyles.datePickerCon]}
                   >
                     <View pointerEvents={this.state.allowPointerEvents ? 'auto' : 'none'}>
-                      <DatePickerIOS
-                        date={this.state.date}
+                      <RNDateTimePicker
+                        value={this.state.date}
                         mode={mode}
+                        display={'spinner'}
                         minimumDate={minDate && DatePicker.getDate(minDate, this.props)}
                         maximumDate={maxDate && DatePicker.getDate(maxDate, this.props)}
-                        onDateChange={this.onDateChange}
+                        onChange={this.onDateChange}
                         minuteInterval={minuteInterval}
                         timeZoneOffsetInMinutes={timeZoneOffsetInMinutes ? timeZoneOffsetInMinutes : null}
                         style={[Style.datePicker, customStyles.datePicker]}
                         locale={locale}
                       />
                     </View>
-                    <TouchableComponent
-                      underlayColor={'transparent'}
-                      onPress={this.onPressCancel}
-                      style={[Style.btnText, Style.btnCancel, customStyles.btnCancel]}
-                      testID={cancelBtnTestID}
-                    >
-                      <Text
-                        allowFontScaling={allowFontScaling}
-                        style={[Style.btnTextText, Style.btnTextCancel, customStyles.btnTextCancel]}
+                    <View style={[Style.datePickerToolBar, {width: width}, customStyles.datePickerToolBar]}>
+                      <TouchableComponent
+                        underlayColor={'transparent'}
+                        onPress={this.onPressCancel}
+                        style={[Style.btnTextCancel, customStyles.btnTextCancel]}
+                        testID={cancelBtnTestID}
                       >
-                        {cancelBtnText}
+                        <Text
+                          allowFontScaling={allowFontScaling}
+                          style={[Style.btnTextText, customStyles.btnTextText]}
+                        >
+                          {cancelBtnText}
+                        </Text>
+                      </TouchableComponent>
+                      <Text allowFontScaling={this.props.allowFontScaling} style={[Style.datePickerTitleText, customStyles.datePickerTitleText]} numberOfLines={1}>
+                            {titleToolBarText}
                       </Text>
-                    </TouchableComponent>
-                    <TouchableComponent
-                      underlayColor={'transparent'}
-                      onPress={this.onPressConfirm}
-                      style={[Style.btnText, Style.btnConfirm, customStyles.btnConfirm]}
-                      testID={confirmBtnTestID}
-                    >
-                      <Text allowFontScaling={allowFontScaling}
-                            style={[Style.btnTextText, customStyles.btnTextConfirm]}
+                      <TouchableComponent
+                        underlayColor={'transparent'}
+                        onPress={this.onPressConfirm}
+                        style={[Style.btnTextFinish, customStyles.btnTextFinish]}
+                        testID={confirmBtnTestID}
                       >
-                        {confirmBtnText}
-                      </Text>
-                    </TouchableComponent>
+                        <Text allowFontScaling={allowFontScaling}
+                              style={[Style.btnTextText, customStyles.btnTextText]}
+                        >
+                          {confirmBtnText}
+                        </Text>
+                      </TouchableComponent>
+                    </View>
                   </Animated.View>
                 </TouchableComponent>
               </TouchableComponent>
